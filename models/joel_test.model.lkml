@@ -111,10 +111,22 @@ explore: incremental_pdts_test {}
 explore: ints {}
 
 explore: inventory_items {
-  join: products {
-    type: left_outer
-    sql_on: ${inventory_items.product_id} = ${products.id} ;;
+    #join: products {
+  #  type: left_outer
+  #  sql_on: ${inventory_items.product_id} = ${products.id} ;;
+  #  relationship: many_to_one
+  #}
+  join: order_items {
+    relationship: one_to_many
+    sql_on: ${inventory_items.id} = ${order_items.inventory_item_id} ;;
+  }
+  join: orders {
     relationship: many_to_one
+    sql_on: ${order_items.order_id} = ${orders.id} ;;
+  }
+  join: users {
+    relationship: one_to_one
+    sql_on: ${orders.user_id} = ${users.id} ;;
   }
 }
 
